@@ -35,6 +35,66 @@ h2 {
     margin: 0;
 }
 
+.popup {
+    top: 0;
+    position: fixed;
+    /* visibility: hidden; */
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s ease-in-out;
+}
+
+.popup #msg-popup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    line-height: 2em;
+    margin: 3em 0;
+    padding: 1em;
+    font-weight: bold;
+    width: 25em;
+    height: 5em;
+    background: linear-gradient(90deg, transparent, rgba(245, 245, 245, 0.9) 10%, rgba(245, 245, 245, 0.9) 90%, transparent);
+    border-radius: 25%;
+}
+
+.popup #msg-popup i {
+    font-style: normal;
+    margin-left: 0.2em;
+}
+
+.popup .btn-wrapper {
+    width: 12em;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup .btn {
+    width: 4em;
+    height: 2em;
+    border-radius: 25%;
+    outline: none;
+    font-weight: bold;
+    box-shadow: 0 0 2.5em 0 grey;
+}
+
+.popup .btn:focus {
+    border-color: yellow;
+}
+
 .header {
     background: #4caf50;
     color: #fff;

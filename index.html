@@ -17,14 +17,27 @@
         <script src="jasmine/lib/jasmine-2.1.2/jasmine-html.js"></script>
         <script src="jasmine/lib/jasmine-2.1.2/boot.js"></script>
     </head>
+
     <body class="menu-hidden">
-        <div class="header">
+        <aside class="popup hidden">
+            <p id="msg-popup">
+                Please wait for all tests to complete
+                <i class="hidden">.</i><i class="hidden">.</i><i class="hidden">.</i>
+            </p>
+
+            <div class="btn-wrapper hidden">
+                <button class="btn" id="btn-yes">Yes</button>
+                <button class="btn" id="btn-no">No</button>
+            </div>
+        </aside>
+
+        <header class="header">
             <a href="#" class="menu-icon-link">
                 <i class="icon-list"></i>
             </a>
 
             <h1 class="header-title">Feeds</h1>
-        </div>
+        </header>
 
         <div class="slide-menu">
             <ul class="feed-list"></ul>
