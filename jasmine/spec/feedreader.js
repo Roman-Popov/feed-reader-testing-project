@@ -9,11 +9,21 @@
  * to ensure they don't run until the DOM is ready.
  */
 $(function() {
+    // Add jasmine reporter To know what spec is running at the moment
+    const reporterCurrentSpec = {
+        specStarted: function (result) {
+            this.name = result.description;
+        }
+    };
+    jasmine.getEnv().addReporter(reporterCurrentSpec);
+
+
     describe('FeedReader Testing', () => {
-        // for blinking dots in pop-up message
+        // For blinking dots in pop-up message
         const popUp = $('.popup');
         let blinkInterval;
 
+        // Before all tests: show modal window, implement blinking dots cycle
         beforeAll(() => {
             const waitDots = document.querySelectorAll('.popup #msg-popup i');
             let i = 0;
@@ -31,13 +41,14 @@ $(function() {
             }, 500);
         });
 
+        // After all tests - ask user if he wants to see results of tests or just hide them
         afterAll(() => {
             const buttons = $('.popup .btn-wrapper'),
                 popUpText = $('.popup #msg-popup'),
                 jasmineReport = $('.jasmine_html-reporter');
 
             clearInterval(blinkInterval);
-            popUpText.html('Tests are complete. <br> Do you want to see results?');
+            popUpText.html('All tests are complete. <br> Do you want to see results?');
             buttons.removeClass('hidden');
 
             buttons.click( e => {
@@ -104,6 +115,8 @@ $(function() {
 
             const menuIcon = $('.menu-icon-link'),
                 menu = $('.slide-menu');
+            let firstVisibleChange,
+                secondVisibleChange;
 
             function isMenuHidden () {
                 return (menu.offset().left + menu.width() < 0 ||
@@ -116,6 +129,25 @@ $(function() {
                     menu.css('visibility') === 'visible' &&
                     menu.css('display') != 'none');
             }
+
+            beforeEach(done => {
+                if (reporterCurrentSpec.name
+                    .indexOf('The menu is shown when clicked and it is hidden when clicked again') === -1) {
+                    done();
+                } else {
+                    menuIcon.click();
+                    menu.on('transitionend', () => {
+                        menu.off('transitionend');
+                        firstVisibleChange = isMenuVisible();
+                        menuIcon.click();
+                        menu.on('transitionend', () => {
+                            menu.off('transitionend');
+                            secondVisibleChange = isMenuHidden();
+                            done();
+                        });
+                    });
+                }
+            });
 
             /* TODO: Write a test that ensures the menu element is
             * hidden by default. You'll have to analyze the HTML and
@@ -131,29 +163,10 @@ $(function() {
             * should have two expectations: does the menu display when
             * clicked and does it hide when clicked again.
             */
-            describe('2.2 The menu changes visibility when the menu icon is clicked', () => {
-                if (isMenuHidden()) {
-                    beforeEach (done => {
-                        menuIcon.click();
-                        menu.on('transitionend', () => {
-                            done();
-                        });
-                    });
-                } else {
-                    // For failing both tests (2.2.1 and 2.2.2) the menu was not hidden by default
-                    beforeEach (done => {
-                        expect(true).toBe(false);
-                        done();
-                    });
-                }
-
-                it('2.2.1 The menu is shown when clicked;', () => {
-                    expect(isMenuVisible()).toBe(true);
-                });
-
-                it('2.2.2 The menu is hidden when clicked again.', () => {
-                    expect(isMenuHidden()).toBe(true);
-                });
+            it('2.2 The menu is shown when clicked and it is hidden when clicked again.', () => {
+                expect(firstVisibleChange).toBeDefined();
+                expect(secondVisibleChange).toBeDefined();
+                expect(firstVisibleChange).toBe(secondVisibleChange);
             });
         });
 
