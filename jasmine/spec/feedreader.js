@@ -39,6 +39,7 @@ $(function() {
                 waitDots[i].classList.remove('hidden');
                 i += 1;
             }, 500);
+            $('footer').appendTo('body');
         });
 
         // After all tests - ask user if he wants to see results of tests or just hide them
