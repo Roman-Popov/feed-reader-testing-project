@@ -99,7 +99,7 @@ $(function () {
         menuIcon = $('.menu-icon-link');
     let feedItemTemplate = Handlebars.compile($('.tpl-feed-list-item').html()),
         feedId = 0;
-        
+
 
     /* Loop through all of our feeds, assigning an id property to
      * each of the feeds based upon its index within the array.
@@ -118,7 +118,7 @@ $(function () {
      * the menu, load the feed, and prevent the default action
      * (following the link) from occurring.
      */
-    feedList.on('click', 'a', () => {
+    feedList.on('click', 'a', function() {
         const item = $(this);
 
         body.addClass('menu-hidden');
